@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Github Repo Search</string>
+
+    <string-array name="sort">
+        <item>Stars</item>
+        <item>Updated</item>
+        <item>Forks</item>
+    </string-array>
+</resources>
