@@ -1,5 +1,9 @@
 package com.nuhin13.githubreposearch
 
+import com.nuhin13.githubreposearch.api.ValidationUtil
+import com.nuhin13.githubreposearch.data.Owner
+import com.nuhin13.githubreposearch.data.RepositoryItem
+import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -9,14 +13,17 @@ class ValidationUtilTest {
 
     @Test
     fun validateItemTest() {
-        /*val movie = Movie("test","testUrl","main")
-        assertEquals(true, ValidationUtil.validateMovie(movie))*/
+        val owner = Owner("http::/aaaaaa", "flutter")
+        val repo = RepositoryItem("test", "testUrl", owner, 123, "2022-09-29")
+        assertEquals(true, ValidationUtil.validateRepoItem(repo))
     }
 
     @Test
     fun validateItemEmptyTest() {
-        /*val movie = Movie("","testUrl","main")
-        assertEquals(false, ValidationUtil.validateMovie(movie))*/
+        val owner = Owner("http::/aaaaaa", "")
+        val repo = RepositoryItem("test", "testUrl", owner, 123, "")
+
+        assertEquals(false, ValidationUtil.validateRepoItem(repo))
     }
 
 }

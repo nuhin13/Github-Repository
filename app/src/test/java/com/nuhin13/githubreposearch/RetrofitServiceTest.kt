@@ -6,11 +6,9 @@ import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -32,15 +30,14 @@ class RetrofitServiceTest {
             .build().create(RetrofitService::class.java)
     }
 
-
     @Test
-    fun `get all movie api test`() {
+    fun `get repo item api test`() {
         runBlocking {
              val mockResponse = MockResponse()
             mockWebServer.enqueue(mockResponse.setBody("[]"))
             val response = apiService.getAllRepository("Android", 50, "stars")
-            //val request = mockWebServer.takeRequest()
-            //assertEquals("search/repositories", request.path)
+            val request = mockWebServer.takeRequest()
+            assertEquals("search/repositories", request.path)
             assertEquals(true, response.body()?.items?.isNotEmpty() == true)
         }
     }

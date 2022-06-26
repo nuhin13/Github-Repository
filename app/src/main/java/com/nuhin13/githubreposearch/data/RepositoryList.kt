@@ -8,8 +8,6 @@ data class RepositoryList(
 
 data class RepositoryItem(
     val description: String?,
-    val html_url: String,
-    val id: Int,
     val name: String,
     val owner: Owner,
     val stargazers_count: Int,

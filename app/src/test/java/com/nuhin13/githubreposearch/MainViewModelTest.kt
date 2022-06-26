@@ -4,6 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nuhin13.githubreposearch.repo_list.MainViewModel
 import com.nuhin13.githubreposearch.api.MainRepository
 import com.nuhin13.githubreposearch.api.RetrofitService
+import com.nuhin13.githubreposearch.data.Owner
+import com.nuhin13.githubreposearch.data.RepositoryItem
+import com.nuhin13.githubreposearch.data.RepositoryList
+import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -15,7 +19,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import retrofit2.Response
 
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
@@ -39,27 +45,30 @@ class MainViewModelTest {
         mainViewModel = MainViewModel(mainRepository)
     }
 
+    private val owner = Owner("http::/aaaaaa", "flutter")
+    private val repo = RepositoryItem("test", "testUrl", owner, 123, "2022-09-29")
+
+    private val listWithItem = RepositoryList(items = arrayListOf<RepositoryItem>(repo))
+
     @Test
-    fun getAllMoviesTest() {
+    fun getRepositoryTest() {
         runBlocking {
-            /*Mockito.`when`(mainRepository.getAllMovies())
-                .thenReturn(Response.success(listOf<Movie>(Movie("movie", "", "new"))))
-            mainViewModel.getAllMovies()
-            val result = mainViewModel.movieList.getOrAwaitValue()
-            assertEquals(listOf<Movie>(Movie("movie", "", "new")), result)*/
+            Mockito.`when`(mainRepository.getAllRepository("stars"))
+                .thenReturn(Response.success(listWithItem))
+            mainViewModel.getTopRepository("stars")
+            val result = mainViewModel.repoList.getOrAwaitValue()
+            assertEquals(repo, result.items[0])
         }
     }
 
-
     @Test
-    fun `empty movie list test`() {
+    fun `empty repo list test`() {
         runBlocking {
-            /*Mockito.`when`(mainRepository.getAllMovies())
-                .thenReturn(Response.success(listOf<Movie>()))
-            mainViewModel.getAllMovies()
-            val result = mainViewModel.movieList.getOrAwaitValue()
-            assertEquals(listOf<Movie>(), result)*/
+            Mockito.`when`(mainRepository.getAllRepository("stars"))
+                .thenReturn(Response.success(RepositoryList(arrayListOf<RepositoryItem>())))
+            mainViewModel.getTopRepository("stars")
+            val result = mainViewModel.repoList.getOrAwaitValue()
+            assertEquals(arrayListOf<RepositoryItem>(), result.items)
         }
     }
-
 }
