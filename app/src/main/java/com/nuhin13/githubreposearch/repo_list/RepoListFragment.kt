@@ -30,12 +30,6 @@ class RepoListFragment : Fragment(), OnItemClickListener{
         savedInstanceState: Bundle?
     ): View {
         _binding = RepositoryListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         context.let {
             val retrofitService = RetrofitService.getInstance(context!!)
             val mainRepository = MainRepository(retrofitService)
@@ -46,39 +40,49 @@ class RepoListFragment : Fragment(), OnItemClickListener{
                 MyViewModelFactory(mainRepository)
             )[MainViewModel::class.java]
 
-            viewModel.repoList.observe(viewLifecycleOwner) {
-                adapter.setMovies(it.items, this)
-            }
+            viewModel.storeInit(context!!)
+            viewModel.retrieveDate()
 
-            viewModel.errorMessage.observe(viewLifecycleOwner) {
-                Toast.makeText(context!!, it, Toast.LENGTH_SHORT).show()
-            }
-
-            viewModel.loading.observe(viewLifecycleOwner, Observer {
-                if (it) {
-                    binding.progressDialog.visibility = View.VISIBLE
-                } else {
-                    binding.progressDialog.visibility = View.GONE
-                }
-            })
+            generateList()
             generateSortItem()
         }
+        return binding.root
+    }
+
+    private fun generateList(){
+        viewModel.repoList.observe(viewLifecycleOwner) {
+            adapter.setMovies(it.items, this)
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) {
+            Toast.makeText(context!!, it, Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                binding.progressDialog.visibility = View.VISIBLE
+            } else {
+                binding.progressDialog.visibility = View.GONE
+            }
+        })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun generateSortItem() {
         val languages = resources.getStringArray(R.array.sort)
 
-        val adapter =
-            context?.let { ArrayAdapter(it, R.layout.drop_down_item, languages) }
+        val adapter = ArrayAdapter(context!!, R.layout.drop_down_item, languages)
         binding.spinnerSort.adapter = adapter
-        binding.spinnerSort.setSelection(0)
+        binding.spinnerSort.setSelection(viewModel.position.value!!)
 
         binding.spinnerSort.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View, position: Int, id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?,
+                view: View?, position: Int, id: Long) {
+                viewModel.saveData(position)
                 viewModel.getTopRepository(languages[position])
             }
 
