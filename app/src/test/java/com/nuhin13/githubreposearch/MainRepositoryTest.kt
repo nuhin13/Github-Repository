@@ -2,6 +2,8 @@ package com.nuhin13.githubreposearch
 
 import com.nuhin13.githubreposearch.api.MainRepository
 import com.nuhin13.githubreposearch.api.RetrofitService
+import com.nuhin13.githubreposearch.data.RepositoryItem
+import com.nuhin13.githubreposearch.data.RepositoryList
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
@@ -28,13 +30,12 @@ class MainRepositoryTest {
     }
 
     @Test
-    fun `get all movie test`() {
+    fun `get all repo test`() {
         runBlocking {
-            /*Mockito.`when`(apiService.getAllMovies()).thenReturn(Response.success(listOf<Movie>()))
-            val response = mainRepository.getAllMovies()
-            assertEquals(listOf<Movie>(), response.body())*/
+            Mockito.`when`(apiService.getAllRepository("Android", 50, "stars"))
+                .thenReturn(Response.success(RepositoryList(arrayListOf<RepositoryItem>())))
+            val response = mainRepository.getAllRepository("stars")
+            assertEquals(arrayListOf<RepositoryItem>(), response.body()?.items)
         }
-
     }
-
 }

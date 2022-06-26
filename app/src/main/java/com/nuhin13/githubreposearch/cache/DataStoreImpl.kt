@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.map
 
-const val DATASTORE_NAME = "DATASTORE_NAME"
+const val DATASTORE_NAME = "DATASTORE_GITHUB"
 
 val Context.datastore: DataStore<Preferences> by preferencesDataStore(name = DATASTORE_NAME)
 

@@ -76,7 +76,8 @@ class RepoListFragment : Fragment(), OnItemClickListener{
 
         val adapter = ArrayAdapter(context!!, R.layout.drop_down_item, languages)
         binding.spinnerSort.adapter = adapter
-        binding.spinnerSort.setSelection(viewModel.position.value!!)
+
+        binding.spinnerSort.setSelection(viewModel.position)
 
         binding.spinnerSort.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {

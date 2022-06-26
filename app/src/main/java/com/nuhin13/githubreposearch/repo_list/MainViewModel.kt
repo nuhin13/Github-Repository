@@ -16,7 +16,7 @@ class MainViewModel constructor(private val mainRepository: MainRepository) : Vi
     val repoList = MutableLiveData<RepositoryList>()
     val loading = MutableLiveData<Boolean>()
 
-    var position : MutableLiveData<Int> = MutableLiveData(0)
+    var position = 0
 
     var job: Job? = null
     private lateinit var storeRepository: DataStoreImpl
@@ -62,9 +62,9 @@ class MainViewModel constructor(private val mainRepository: MainRepository) : Vi
     }
 
     fun retrieveDate() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             storeRepository.getSortPosition().collect {
-                position.postValue(it)
+                position = it
             }
         }
     }
