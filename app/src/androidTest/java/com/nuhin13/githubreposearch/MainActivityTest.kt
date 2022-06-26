@@ -17,6 +17,7 @@ class MainActivityTest{
 
     @Test
     fun test_activity_text() {
+        //testing purpose
         val repo = FakeRepositoryItem.repoList.items[4]
         Espresso.onView(ViewMatchers.withId(R.id.tvTest))
             .check(ViewAssertions.matches(ViewMatchers.withText(repo.name)))
