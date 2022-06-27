@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.nuhin13.githubreposearch.R
 import com.nuhin13.githubreposearch.api.MainRepository
 import com.nuhin13.githubreposearch.api.RetrofitService
+import com.nuhin13.githubreposearch.data.FakeRepositoryItem
 import com.nuhin13.githubreposearch.data.MyViewModelFactory
 import com.nuhin13.githubreposearch.data.RepositoryItem
 import com.nuhin13.githubreposearch.databinding.RepositoryListBinding
@@ -50,6 +51,10 @@ class RepoListFragment : Fragment(), OnItemClickListener{
     }
 
     private fun generateList(){
+
+        /// For testing purpose
+        //adapter.setMovies(FakeRepositoryItem.repoList.items, this)
+
         viewModel.repoList.observe(viewLifecycleOwner) {
             adapter.setMovies(it.items, this)
         }

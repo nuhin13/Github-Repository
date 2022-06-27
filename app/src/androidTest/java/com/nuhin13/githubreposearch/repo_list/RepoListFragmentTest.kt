@@ -42,16 +42,16 @@ class RepoListFragmentTest{
         onView(withId(R.id.spinnerSort)).perform(click())
         onData(anything()).atPosition(0).perform(click())
         onView(withId(R.id.progressDialog)).check(matches(isDisplayed()))
-        onView(withId(R.id.recyclerview)).check(matches(not(isDisplayed())))
+        //onView(withId(R.id.recyclerview)).check(matches(not(isDisplayed())))
         onView(withId(R.id.recyclerview)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
     }
 
     @Test
-    fun test_selectListItem() {
+    fun test_selectListItem_and_go_to_Details() {
         onView(withId(R.id.spinnerSort)).perform(click())
         onData(anything()).atPosition(0).perform(click())
         onView(withId(R.id.progressDialog)).check(matches(isDisplayed()))
-        onView(withId(R.id.recyclerview)).check(matches(not(isDisplayed())))
+        //onView(withId(R.id.recyclerview)).check(matches(not(isDisplayed())))
         onView(withId(R.id.recyclerview)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
 
         /*onView(withId(R.id.recyclerview))
@@ -62,7 +62,7 @@ class RepoListFragmentTest{
         onView(withId(R.id.recyclerview))
             .perform(actionOnItemAtPosition<MainViewHolder>(position, click()))
 
-        onView(withId(R.id.tvName)).check(matches(withText(repo.name)))
+        onView(withId(R.id.tvUserName)).check(matches(withText(repo.owner.login)))
     }
 
     @Test
@@ -70,29 +70,14 @@ class RepoListFragmentTest{
         onView(withId(R.id.spinnerSort)).perform(click())
         onData(anything()).atPosition(0).perform(click())
         onView(withId(R.id.progressDialog)).check(matches(isDisplayed()))
-        onView(withId(R.id.recyclerview)).check(matches(not(isDisplayed())))
+        //onView(withId(R.id.recyclerview)).check(matches(not(isDisplayed())))
         onView(withId(R.id.recyclerview)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
 
         onView(withId(R.id.recyclerview))
             .perform(actionOnItemAtPosition<MainViewHolder>(position, click()))
-        onView(withId(R.id.tvName)).check(matches(withText(repo.name)))
+        onView(withId(R.id.tvUserName)).check(matches(withText(repo.owner.login)))
 
         pressBack()
-        onView(withId(R.id.recyclerview)).check(matches(isDisplayed()))
+        onView(withId(R.id.spinnerSort)).check(matches(isDisplayed()))
     }
-
-    @Test
-    fun test_navList_DetailsFragment() {
-        onView(withId(R.id.spinnerSort)).perform(click())
-        onData(anything()).atPosition(0).perform(click())
-        onView(withId(R.id.progressDialog)).check(matches(isDisplayed()))
-        onView(withId(R.id.recyclerview)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.recyclerview)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-
-        onView(withId(R.id.recyclerview))
-            .perform(actionOnItemAtPosition<MainViewHolder>(position, click()))
-
-        onView(withId(R.id.DetailsFragment)).perform(click())
-    }
-
 }
